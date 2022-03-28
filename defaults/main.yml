@@ -1,0 +1,11 @@
+# Default variables for 'neovim' role
+#
+# These variables have the lowest priority of any variables available, and can
+# be easily overridden by any other variable, including inventory variables.
+#
+# (See Using Variables for more information)
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#playbooks-variables
+---
+neovim: true
+neovim_ide: false
+neovim_nightly: false

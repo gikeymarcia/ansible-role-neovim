@@ -1,0 +1,79 @@
+# Tasks to install neovim with my IDE-like configuration
+---
+
+- name: Ensure supporting `apt` packages are installed.
+  become: true
+  ansible.builtin.apt:
+    name:
+      - shellcheck
+    state: latest
+
+- name: "NeoVim-IDE `pip` packages up-to-date."
+  become_user: "{{ primary_user }}"
+  ansible.builtin.pip:
+    name:
+      - ansible-lint[yamllint]
+      - yamllint
+      - black
+      - flake8
+      - flake8-bugbear
+      - virtualenv
+    state: latest
+
+- name: Ensure Neovim configuration directories exist.
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ primary_user }}"
+    group: "{{ primary_user }}"
+    mode: '0755'
+  with_items:
+    - "{{ primary_home }}/.config/nvim"
+    - "{{ primary_home }}/.config/coc/extensions"
+
+
+#                                  .o88o.  o8o
+#                                  888 `"  `"'
+#  .ooooo.   .ooooo.  ooo. .oo.   o888oo  oooo   .oooooooo  .oooo.o
+# d88' `"Y8 d88' `88b `888P"Y88b   888    `888  888' `88b  d88(  "8
+# 888       888   888  888   888   888     888  888   888  `"Y88b.
+# 888   .o8 888   888  888   888   888     888  `88bod8P'  o.  )88b
+# `Y8bod8P' `Y8bod8P' o888o o888o o888o   o888o `8oooooo.  8""888P'
+#  CONFIG -- confi$%-- rsync -- synchronize     d"     YD
+#                                               "Y88888P'
+- name: Ensure various configurations are in place.
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ primary_user }}"
+    group: "{{ primary_user }}"
+    mode: '0644'
+  loop:
+    # COPY these src: dest: pairs and configure for your needs
+    - src: ~/.config/shellcheckrc
+      dest: "{{ primary_home }}/.config/shellcheckrc"
+    - src: ~/.config/flake8
+      dest: "{{ primary_home  }}/.config/flake8"
+
+- name: Neovim configuration synchronized and up-to-date.
+  ansible.posix.synchronize:
+    # https://docs.ansible.com/ansible/latest/collections/ansible/posix/synchronize_module.html
+    # Synchronize files and folders to remote machines (uses rsync)
+    #   paths ending in `/` are directories, otherwise will sync files
+    #   add and remove whatever part of your config needs synchronization
+    src: "~/.config/nvim/{{ item }}"
+    dest: "{{ primary_home }}/.config/nvim/{{ item }}"
+    delete: true
+  with_items:
+    - init.vim
+    - coc-settings.json
+    - autoload/
+    - ftplugin/
+    - lua/
+    - plug-config/
+    - snips/
+    - spell/
+    - syntax/
+
+...
+# vim: foldlevel=1: filetype=yaml.ansible :

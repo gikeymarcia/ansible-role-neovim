@@ -1,0 +1,80 @@
+# Tasks to install latest neovim, tree-sitter, and helper packages
+---
+
+- name: "Ensure required system packages are present."
+  ansible.builtin.apt:
+    name:
+      - nodejs
+      - python3-pip
+      - npm
+    state: latest
+
+- name: "Ensure old neovim from repository is absent."
+  ansible.builtin.apt:
+    name:
+      - neovim
+    state: absent
+
+- name: "Ensure latest `neovim` npm package is present."
+  community.general.npm:
+    name: neovim
+    global: true
+    state: latest
+
+- name: "Ensure latest `pynvim` pip package present."
+  ansible.builtin.pip:
+    name: pynvim
+    state: latest
+
+- name: "Landing place for software exists."
+  ansible.builtin.file:
+    state: directory
+    owner: root
+    group: adm
+    mode: '0750'
+    path: "{{ item }}"
+  with_items:
+    - '/software'
+    - '/software/nvim-{{ nvim.version }}'
+    - '{{ treesit.dl_dir }}'
+
+- name: "nvim v{{ nvim.version }} appimage downloaded."
+  ansible.builtin.get_url:
+    url: "{{ nvim.appimage_url }}"
+    checksum: "{{ nvim.checksum }}"
+    dest: "/software/nvim-{{ nvim.version }}/nvim.appimage"
+    mode: '0555'
+
+- name: "Ensure 'nvim' v{{ nvim.version }} is installed."
+  ansible.builtin.copy:
+    src: "/software/nvim-{{ nvim.version }}/nvim.appimage"
+    owner: root
+    group: root
+    mode: '0755'
+    dest: /usr/local/bin/nvim
+    remote_src: yes
+
+- name: "TreeSitter: v{{ treesit.version }} compressed file downloaded."
+  ansible.builtin.get_url:
+    url: "{{ treesit.archive_url }}"
+    dest: "{{ treesit.dl_dir }}/{{ treesit.dl_name }}"
+    checksum: "{{ treesit.checksum }}"
+    mode: '0555'
+
+- name: "TreeSitter: v{{ treesit.version }} download decompressed."
+  ansible.builtin.command:
+    chdir: "{{ treesit.dl_dir }}"
+    cmd: gunzip --keep {{ treesit.dl_name }}
+    creates: "{{ treesit.dl_dir }}/{{ treesit.filename }}"
+
+- name: "TreeSitter: v{{ treesit.version }} installed."
+  ansible.builtin.copy:
+    remote_src: yes
+    src: "{{ treesit.dl_dir }}/{{ treesit.filename }}"
+    dest: /usr/local/bin/tree-sitter
+    owner: root
+    group: root
+    mode: '0755'
+
+...
+# vim: foldlevel=2 : filetype=yaml.ansible :
