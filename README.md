@@ -1,14 +1,12 @@
 Neovim
 =========
 
-A role to deploy Neovim from it's GitHub AppImage. This role only supports
-installing an "X86_64" architecture (due to Neovim support).
+Deploy neovim from GitHub.
 
 Requirements
 ------------
 
-This role has no requirements and should run successfully on all x86_64 Linux
-distributions.
+None.
 
 Role Variables
 --------------
@@ -28,14 +26,12 @@ neovim_nightly: false
   deploys them onto each remote machine.
 
 If running this role with `neovim_ide: true` then you must also define
-`primary`.
+`primary_user` and `primary_home`.
 
 ```yml
-primary:
-  user: greezy
-  home: /home/greezy
+primary_user: greezy
+primary_home: /home/greezy
 ```
-
 
 Dependencies
 ------------
@@ -56,9 +52,8 @@ Including an example of how to use your role (for instance, with variables passe
   vars:
     neovim_nightly: true
     neovim_ide: true
-    primary:
-        user: greezy
-        home: /home/greezy
+    primary_user: greezy
+    primary_home: /home/greezy
 ```
 
 License

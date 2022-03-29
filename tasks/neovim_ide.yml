@@ -49,7 +49,7 @@
     group: "{{ primary_user }}"
     mode: '0644'
   loop:
-    # COPY these src: dest: pairs and configure for your needs
+    # TODO VARS these src: dest: pairs and configure for your needs
     - src: ~/.config/shellcheckrc
       dest: "{{ primary_home }}/.config/shellcheckrc"
     - src: ~/.config/flake8
@@ -64,6 +64,7 @@
     src: "~/.config/nvim/{{ item }}"
     dest: "{{ primary_home }}/.config/nvim/{{ item }}"
     delete: true
+  # TODO VARS turn this list into variables
   with_items:
     - init.vim
     - coc-settings.json
