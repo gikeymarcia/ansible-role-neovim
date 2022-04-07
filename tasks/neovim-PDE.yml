@@ -4,12 +4,12 @@
 - name: "Latest PDE apt packages installed."
   ansible.builtin.apt:
     name: "{{ item }}"
-    state: latest
+    state: "{{ neovim_apt_state }}"
   with_items: "{{ neovim_apt_packages }}"
   when: neovim_apt_packages | length > 0
 
 - name: "Pip3 Installed for pip packages."
-  ansible.builtin.apt: name=python3-pip state=latest
+  ansible.builtin.apt: name=python3-pip state={{ neovim_pip3_packager_state }}
   when: neovim_pip_packages | length > 0
 
 - name: "Latest PDE pip packages installed."

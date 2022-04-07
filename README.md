@@ -68,37 +68,54 @@ neovim_config_dirs: []
 neovim_config_syncs: []
 ```
 
-- `neovim_pde` is the toggle that enables/disables the extended syncing and
-  mode.
-- `neovim_apt_packages` a list of packages that should be installed from the apt
-  repository
-- `neovim_pip_packages` list of pip packages to have installed at their latest
-  state
-- `neovim_npm_packages` a list of packages to be instal
+- `neovim_pde` is the toggle that enables/disables this extended syncing mode.
+  When this value is false (**default**) none of the rest of the other PDE
+  features will run. No packages, No syncs.
 
+#### Packages
 
-This is what the variables look like when I'm using, shellcheck, npm, and some
-pip modules for python development.
+There are currently 3 supported packaging systems:
+
+- `neovim_apt_packages`
+- `neovim_pip_packages`
+- `neovim_npm_packages`
+
+Each packaging variables should contain a list of packages to install. If you
+select packages from a given source the package manager will also be installed.
+Your variables file may look something like this.
 
 ```yml
 neovim_pde: true
-neovim_apt_packages:
-  - shellcheck
-  - nodejs
-  - npm
+neovim_npm_packages:
+  - neovim
 neovim_pip_packages:
-  - black
+  - pynvim
   - flake8
-  - flake8-bugbear
-  - virtualenv
+```
+
+In this case the 'npm' and 'pip' package managers will also be installed in
+their latest state.
+
+#### Configuration
+
+When syncing configuration you need to define a `primary_user` who will receive
+the configuration and also the location of their home folder with
+`primary_home`.
+
+```yml
+neovim_pde: true
+
+primary_user: prime
+primary_home: /home/prime
+
 neovim_config_dirs:
   - "{{ primary_home }}/.config/nvim"
   - "{{ primary_home }}/.config/coc/extensions"
 neovim_external_config:
-  - src: ~/.config/shellcheckrc
-    dest: "{{ primary_home }}/.config/shellcheckrc"
   - src: ~/.config/flake8
     dest: "{{ primary_home }}/.config/flake8"
+  - src: ~/.config/shellcheckrc
+    dest: "{{ primary_home }}/.config/shellcheckrc"
 neovim_config_syncs:
   - init.vim
   - coc-settings.json
