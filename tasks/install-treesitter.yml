@@ -24,7 +24,7 @@
 - name: "TreeSitter: v{{ treesitter_version }} installed."
   ansible.builtin.copy:
     remote_src: yes
-    src: "{{ treesitter_dl_dir }}/{{ treesit.filename }}"
+    src: "{{ treesitter_dl_dir }}/{{ treesitter_filename }}"
     dest: /usr/local/bin/tree-sitter
     owner: root
     group: root
