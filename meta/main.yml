@@ -4,8 +4,9 @@
 dependencies: []
 
 galaxy_info:
+  role_name: neovim
   author: gikeymarcia
-  description: Deploy the latest Neovim and sync your config for Debian/Ubuntu
+  description: Deploy the latest Neovim and sync your configs.
 
   # - BSD-3-Clause (default)
   # - MIT
@@ -19,14 +20,10 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - stretch
-        - buster
-        - bullseye
+        - all
     - name: Ubuntu
       versions:
-        - bionic
-        - focal
-        - impish
+        - all
 
   galaxy_tags:
     - neovim

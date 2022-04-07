@@ -1,29 +1,36 @@
 # tasks file for neovim
 ---
 
-- name: Latest nvim and tree-sitter are installed.
-  include_tasks: neovim_and_treesitter.yml
-  when:
-    - ansible_architecture == "x86_64"
-    - neovim | bool == true
+- when: ansible_architecture == "x86_64"
+  block:
 
-- name: "Neovim IDE-like configuration loaded."
-  include_tasks: neovim_ide.yml
-  when:
-    - ansible_architecture == "x86_64"
-    - neovim_ide | bool == true
+  - name: "Ensure FUSE installed for using appimages."
+    ansible.builtin.apt:
+      name:
+        - fuse
+        - libfuse2
+      state: latest
 
-- name: "Nightly neovim installed as 'nnvim'."
-  become: true
-  ansible.builtin.get_url:
-    url: "{{ nightly_appimage_url }}"
-    dest: /usr/local/bin/nnvim
-    owner: root
-    group: root
-    mode: '0755'
-  when:
-    - ansible_architecture == "x86_64"
-    - neovim_nightly | bool == true
+  - name: "Latest nvim installed."
+    include_tasks: install-neovim.yml
+    when: neovim | bool == true
+
+  - name: "Latest tree-sitter installed."
+    include_tasks: install-treesitter.yml
+    when: treesitter | bool == true
+
+  - name: "Nightly neovim installed as 'nnvim'."
+    ansible.builtin.get_url:
+      url: "{{ nvim_nightly_url }}"
+      dest: /usr/local/bin/nnvim
+      owner: root
+      group: root
+      mode: '0755'
+    when: neovim_nightly | bool == true
+
+  - name: "Neovim PDE (Personal Development Environment)"
+    include_tasks: tasks/neovim-PDE.yml
+    when: neovim_pde | bool == true
 
 ...
 # vim : filetype=yaml.ansible :
