@@ -34,6 +34,7 @@ neovim_config_syncs: []
 
 # digging deeper
 neovim_pip3_packager_state: latest
+neovim_npm_packager_state: latest
 neovim_pip3_state: latest
 neovim_apt_state: latest
 ...
