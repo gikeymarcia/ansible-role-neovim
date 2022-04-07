@@ -169,11 +169,11 @@ A list of other roles hosted on Galaxy should go here, plus any details in regar
 Example Playbook
 ----------------
 
-Below I combine all of the configuration described above and put it all into a
+Below I combine all of the configuration described above and put it into a
 single playbook.
 
 ```yml
-- hosts: localhost
+- hosts: all
   become: true
 
   roles:
@@ -215,4 +215,4 @@ GPLv3
 Author Information
 ------------------
 
-Find me on github @ https://github.com/gikeymarcia
+Find me on GitHub @ https://github.com/gikeymarcia

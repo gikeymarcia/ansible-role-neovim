@@ -10,6 +10,7 @@
         - fuse
         - libfuse2
       state: latest
+      when: ansible_os_family == "Debian"
 
   - name: "Latest nvim installed."
     include_tasks: install-neovim.yml
