@@ -94,13 +94,21 @@ neovim_pip_packages:
 ```
 
 In this case the 'npm' and 'pip' package managers will also be installed in
-their latest state.
+their latest state. There are finer-grain controls in the [default vars](https://github.com/gikeymarcia/ansible-role-neovim/blob/master/defaults/main.yml)
 
 #### Configuration
 
 When syncing configuration you need to define a `primary_user` who will receive
 the configuration and also the location of their home folder with
-`primary_home`.
+`primary_home`. Below I use the 'neovim_config_syncs' list to enumerate which
+files and folders within my local `~/.config/nvim/` to synchronize to the remote
+machine.
+
+<br>
+
+**Tip**: Folders you want to sync should have a trailing `/`.
+
+<br>
 
 ```yml
 neovim_pde: true
@@ -108,14 +116,6 @@ neovim_pde: true
 primary_user: prime
 primary_home: /home/prime
 
-neovim_config_dirs:
-  - "{{ primary_home }}/.config/nvim"
-  - "{{ primary_home }}/.config/coc/extensions"
-neovim_external_config:
-  - src: ~/.config/flake8
-    dest: "{{ primary_home }}/.config/flake8"
-  - src: ~/.config/shellcheckrc
-    dest: "{{ primary_home }}/.config/shellcheckrc"
 neovim_config_syncs:
   - init.vim
   - coc-settings.json
@@ -126,20 +126,38 @@ neovim_config_syncs:
   - snips/
   - spell/
   - syntax/
+neovim_config_dirs:
+  - "{{ primary_home }}/.config/nvim"
+
 ```
 
+If you need a folder to exist in the remote `$HOME` then it should be defined in
+the `neovim_config_dirs` list using the `{{ primary_home }}` as the root of the
+path. For example, above I make sure the nvim config folder exists at `"{{
+primary_home }}/.config/nvim"`
 
+<br>
 
-- `neovim_pde: true` copies lots of config from the Ansible control host and
-  deploys them onto each remote machine.
+Finally, if you need to copy configuration files that are outside your
+~/.config/nvim you can use the `neovim_external_config` variable. This variable
+should be a list of key-value pairs, 'src:' and 'dest:'.
 
-If running this role with `neovim_pde: true` then you must also define
-`primary_user` and `primary_home`.
+- `src` is the path to the local file
+- `dest` is the remote machine path which would receive the 'src' file.I
+  recommend using the `{{ primary_home }}` variable as I did below so if you
+  ever need to use a different username on a machine you'll be able to change
+  one host_var and things will work the same.
 
 ```yml
-primary_user: greezy
-primary_home: /home/greezy
+neovim_external_config:
+  - src: ~/.config/flake8
+    dest: "{{ primary_home }}/.config/flake8"
+  - src: ~/.config/shellcheckrc
+    dest: "{{ primary_home }}/.config/shellcheckrc"
 ```
+
+Above I copy the local flake8 and shellcheck configuration files onto remote
+hosts.
 
 Dependencies
 ------------
@@ -149,19 +167,42 @@ A list of other roles hosted on Galaxy should go here, plus any details in regar
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Below I combine all of the configuration described above and put it all into a
+single playbook.
 
 ```yml
-- hosts: all
+- hosts: localhost
   become: true
 
   roles:
     - gikeymarcia.neovim
   vars:
     neovim_nightly: true
+    primary_user: mikey
+    primary_home: /home/mikey
     neovim_pde: true
-    primary_user: greezy
-    primary_home: /home/greezy
+    neovim_npm_packages:
+      - neovim
+    neovim_pip_packages:
+      - pynvim
+      - flake8
+    neovim_config_syncs:
+      - init.vim
+      - coc-settings.json
+      - autoload/
+      - ftplugin/
+      - lua/
+      - plug-config/
+      - snips/
+      - spell/
+      - syntax/
+    neovim_config_dirs:
+      - "{{ primary_home }}/.config/nvim"
+    neovim_external_config:
+      - src: ~/.config/flake8
+        dest: "{{ primary_home }}/.config/flake8"
+      - src: ~/.config/shellcheckrc
+        dest: "{{ primary_home }}/.config/shellcheckrc"
 ```
 
 License
