@@ -94,7 +94,9 @@ neovim_pip_packages:
 ```
 
 In this case the 'npm' and 'pip' package managers will also be installed in
-their latest state. There are finer-grain controls in the [default vars](https://github.com/gikeymarcia/ansible-role-neovim/blob/master/defaults/main.yml)
+their latest state. There are finer-grain controls in the [default
+vars](https://github.com/gikeymarcia/ansible-role-neovim/blob/master/defaults/main.yml)
+under "digging deeper"
 
 #### Configuration
 

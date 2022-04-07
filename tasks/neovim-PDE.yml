@@ -58,7 +58,6 @@
   with_items: "{{ neovim_config_dirs }}"
   when: neovim_config_dirs | length > 0
 
-
 - name: Ensure various configurations are in place.
   ansible.builtin.copy:
     src: "{{ item.src }}"
