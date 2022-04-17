@@ -16,7 +16,6 @@
 - name: "nvim v{{ neovim_version }} appimage downloaded."
   ansible.builtin.get_url:
     url: "{{ nvim_appimage_url }}"
-    # checksum: "{{ nvim.checksum }}"
     dest: "{{nvim_dl_dir}}/nvim.appimage"
     mode: '0555'
 
