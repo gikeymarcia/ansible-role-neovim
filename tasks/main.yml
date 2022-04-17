@@ -30,7 +30,7 @@
     when: neovim_nightly | bool == true
 
   - name: "Neovim PDE (Personal Development Environment)"
-    include_tasks: tasks/neovim-PDE.yml
+    include_tasks: neovim-PDE.yml
     when: neovim_pde | bool == true
 
 ...
