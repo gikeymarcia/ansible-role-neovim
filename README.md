@@ -164,15 +164,15 @@ hosts.
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None.
 
 Example Playbook
 ----------------
 
-Below I combine all of the configuration described above and put it into a
-single playbook.
+Below I combine all of the above configuration into a single playbook.
 
 ```yml
+---
 - hosts: all
   become: true
 
@@ -205,6 +205,7 @@ single playbook.
         dest: "{{ primary_home }}/.config/flake8"
       - src: ~/.config/shellcheckrc
         dest: "{{ primary_home }}/.config/shellcheckrc"
+...
 ```
 
 License
