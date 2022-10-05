@@ -81,7 +81,7 @@
     #   paths ending in `/` are directories, otherwise will sync files
     #   add and remove whatever part of your config needs synchronization
     src: "~/.config/nvim/{{ item }}"
-    dest: "{{ primary_home }}/.config/nvim/{{ item }}"
+    dest: "/home/{{ primary_user }}/.config/nvim/{{ item }}"
     delete: true
   with_items: "{{ neovim_config_syncs }}"
   when: neovim_config_syncs | length > 0

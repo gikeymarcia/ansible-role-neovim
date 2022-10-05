@@ -101,8 +101,7 @@ under "digging deeper"
 #### Configuration
 
 When syncing configuration you need to define a `primary_user` who will receive
-the configuration and also the location of their home folder with
-`primary_home`. Below I use the 'neovim_config_syncs' list to enumerate which
+the configuration. Below I use the 'neovim_config_syncs' list to enumerate which
 files and folders within my local `~/.config/nvim/` to synchronize to the remote
 machine.
 
@@ -116,7 +115,6 @@ machine.
 neovim_pde: true
 
 primary_user: prime
-primary_home: /home/prime
 
 neovim_config_syncs:
   - init.vim
@@ -129,14 +127,14 @@ neovim_config_syncs:
   - spell/
   - syntax/
 neovim_config_dirs:
-  - "{{ primary_home }}/.config/nvim"
+  - "/home/{{ primary_user }}/.config/nvim"
 
 ```
 
 If you need a folder to exist in the remote `$HOME` then it should be defined in
-the `neovim_config_dirs` list using the `{{ primary_home }}` as the root of the
-path. For example, above I make sure the nvim config folder exists at `"{{
-primary_home }}/.config/nvim"`
+the `neovim_config_dirs` list using `/home/{{ primary_user }}` as the root of
+the path. For example, above I make sure the nvim config folder exists at
+`/home/{{ primary_user }}/.config/nvim`
 
 <br>
 
@@ -145,17 +143,15 @@ Finally, if you need to copy configuration files that are outside your
 should be a list of key-value pairs, 'src:' and 'dest:'.
 
 - `src` is the path to the local file
-- `dest` is the remote machine path which would receive the 'src' file.I
-  recommend using the `{{ primary_home }}` variable as I did below so if you
-  ever need to use a different username on a machine you'll be able to change
-  one host_var and things will work the same.
+- `dest` is the remote machine path which would receive the 'src' file.
+  Generally these will begin with `/home/{{ primary_user }}`.
 
 ```yml
 neovim_external_config:
   - src: ~/.config/flake8
-    dest: "{{ primary_home }}/.config/flake8"
+    dest: "/home/{{ primary_user }}/.config/flake8"
   - src: ~/.config/shellcheckrc
-    dest: "{{ primary_home }}/.config/shellcheckrc"
+    dest: "/home/{{ primary_user }}/.config/shellcheckrc"
 ```
 
 Above I copy the local flake8 and shellcheck configuration files onto remote
@@ -181,7 +177,6 @@ Below I combine all of the above configuration into a single playbook.
   vars:
     neovim_nightly: true
     primary_user: mikey
-    primary_home: /home/mikey
     neovim_pde: true
     neovim_npm_packages:
       - neovim
@@ -199,12 +194,12 @@ Below I combine all of the above configuration into a single playbook.
       - spell/
       - syntax/
     neovim_config_dirs:
-      - "{{ primary_home }}/.config/nvim"
+      - "/home/{{ primary_user }}/.config/nvim"
     neovim_external_config:
       - src: ~/.config/flake8
-        dest: "{{ primary_home }}/.config/flake8"
+        dest: "/home/{{ primary_user }}/.config/flake8"
       - src: ~/.config/shellcheckrc
-        dest: "{{ primary_home }}/.config/shellcheckrc"
+        dest: "/home/{{ primary_user }}/.config/shellcheckrc"
 ...
 ```
 
