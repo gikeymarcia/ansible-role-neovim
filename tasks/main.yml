@@ -27,7 +27,7 @@
       owner: root
       group: root
       mode: '0755'
-    when: neovim_nightly | bool == true
+    when: neovim_nightly | bool
 
   - name: "Neovim PDE (Personal Development Environment)"
     include_tasks: neovim-PDE.yml

@@ -24,7 +24,7 @@
   with_items: "{{ neovim_pip_packages }}"
   when: neovim_pip_packages | length > 0
 
-- name: "npm installed from repository."
+- name: "Ensure npm installed from repository."
   ansible.builtin.apt: name=npm state={{ neovim_npm_packager_state }}
   when:
     - neovim_npm_packages | length > 0

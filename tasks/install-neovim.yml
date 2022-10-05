@@ -13,20 +13,20 @@
     mode: '0750'
     path: "{{ nvim_dl_dir }}"
 
-- name: "nvim v{{ neovim_version }} appimage downloaded."
+- name: "Ensure nvim appimage downloaded v{{ neovim_version }}"
   ansible.builtin.get_url:
     url: "{{ nvim_appimage_url }}"
     dest: "{{ nvim_dl_dir }}/nvim.appimage"
     mode: '0555'
 
-- name: "Ensure 'nvim' v{{ neovim_version }} is installed."
+- name: "Ensure 'nvim' installed v{{ neovim_version }}"
   ansible.builtin.copy:
     src: "{{ nvim_dl_dir }}/nvim.appimage"
     dest: /usr/local/bin/nvim
     owner: root
     group: root
     mode: '0755'
-    remote_src: yes
+    remote_src: true
 
 ...
 # vim: foldlevel=2 : filetype=yaml.ansible :
