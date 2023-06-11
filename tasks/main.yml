@@ -13,12 +13,12 @@
     when: ansible_os_family == "Debian"
 
   - name: "Latest nvim installed."
-    include_tasks: install-neovim.yml
-    when: neovim | bool == true
+    ansible.builtin.include_tasks: install-neovim.yml
+    when: neovim | bool
 
   - name: "Latest tree-sitter installed."
-    include_tasks: install-treesitter.yml
-    when: treesitter | bool == true
+    ansible.builtin.include_tasks: install-treesitter.yml
+    when: treesitter | bool
 
   - name: "Nightly neovim installed as 'nnvim'."
     ansible.builtin.get_url:
@@ -30,8 +30,8 @@
     when: neovim_nightly | bool
 
   - name: "Neovim PDE (Personal Development Environment)"
-    include_tasks: neovim-PDE.yml
-    when: neovim_pde | bool == true
+    ansible.builtin.include_tasks: neovim-PDE.yml
+    when: neovim_pde | bool
 
 ...
 # vim : filetype=yaml.ansible :
