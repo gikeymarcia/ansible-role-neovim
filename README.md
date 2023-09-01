@@ -10,7 +10,7 @@ _Optionally:_
 - Install nightly neovim appimage as `nnvim`
 - Sync local nvim configuration to remote machines
 - Install supporting apt packages
-- Install supporting pip packages
+- Install supporting pip packages (uses pipx)
 - Install supporting npm packages
 
 Requirements
