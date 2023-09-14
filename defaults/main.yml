@@ -7,7 +7,7 @@
 # https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#playbooks-variables
 ---
 # application versions
-neovim_version: "0.9.1"
+neovim_version: "0.9.2"
 treesitter_version: "0.20.8"
 
 # variables for downloading appimages
