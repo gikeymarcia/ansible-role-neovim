@@ -29,10 +29,10 @@ installed with variables.
 
 ```yml
 neovim: true
-neovim_version: "0.10.1"
+neovim_version: "0.10.2"
 
 treesitter: true
-treesitter_version: "0.22.6"
+treesitter_version: "0.24.2"
 ```
 
 ### Nightly Neovim Release
