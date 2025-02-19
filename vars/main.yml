@@ -1,5 +1,5 @@
 # Variables for installing neovim and treesitter
 # yamllint disable rule:line-length
 ---
-nvim_nightly_url: https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+nvim_nightly_url: https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage
 ...
