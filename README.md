@@ -32,7 +32,7 @@ neovim: true
 neovim_version: "0.10.4"
 
 treesitter: true
-treesitter_version: "0.25.2"
+treesitter_version: "0.25.3"
 ```
 
 ### Nightly Neovim Release
