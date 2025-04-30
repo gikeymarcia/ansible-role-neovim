@@ -29,7 +29,7 @@ installed with variables.
 
 ```yml
 neovim: true
-neovim_version: "0.11.0"
+neovim_version: "0.11.1"
 
 treesitter: true
 treesitter_version: "0.25.3"
