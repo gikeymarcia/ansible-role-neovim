@@ -25,7 +25,6 @@
   community.general.pipx:
     name: "{{ item }}"
     state: latest
-    executable:  ~/.local/bin/pipx
   with_items: "{{ neovim_pip_packages }}"
   when: neovim_pip_packages | length > 0
 
